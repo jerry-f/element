@@ -52,6 +52,7 @@ const Message = function(options) {
 });
 
 Message.close = function(id, userOnClose) {
+  console.log('close事件', id, userOnClose);
   for (let i = 0, len = instances.length; i < len; i++) {
     if (id === instances[i].id) {
       if (typeof userOnClose === 'function') {

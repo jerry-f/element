@@ -36,7 +36,7 @@ export const t = function(path, options) {
   }
   return '';
 };
-
+/* 用于该变 默认的提示信息 */
 export const use = function(l) {
   lang = l || lang;
 };

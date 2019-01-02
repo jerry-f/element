@@ -11,7 +11,7 @@ nodes.forEach((node) => {
   var selector = node.selector || '';
   var reg = new RegExp(/\.el-icon-([^:]+):before/);
   var arr = selector.match(reg);
-
+  // console.log(arr);
   if (arr && arr[1]) {
     classList.push(arr[1]);
   }

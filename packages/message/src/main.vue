@@ -68,12 +68,15 @@
 
     methods: {
       destroyElement() {
+        /* 删除事件， */
+        console.log('移除事件');
         this.$el.removeEventListener('transitionend', this.destroyElement);
         this.$destroy(true);
         this.$el.parentNode.removeChild(this.$el);
       },
 
       close() {
+        console.log('close事件2', this.onClose);
         this.closed = true;
         if (typeof this.onClose === 'function') {
           this.onClose(this);

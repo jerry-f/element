@@ -36,7 +36,7 @@ router.afterEach(route => {
   document.title = 'Element';
 });
 
-new Vue({ // eslint-disable-line
+window.myVue = new Vue({ // eslint-disable-line
   render: h => h(entry),
   router
 }).$mount('#app');

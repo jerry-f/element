@@ -181,14 +181,11 @@ export default {
     },
 
     pauseTimer() {
-      if (this.timer) {
-        clearInterval(this.timer);
-        this.timer = null;
-      }
+      clearInterval(this.timer);
     },
 
     startTimer() {
-      if (this.interval <= 0 || !this.autoplay || this.timer) return;
+      if (this.interval <= 0 || !this.autoplay) return;
       this.timer = setInterval(this.playSlides, this.interval);
     },
 
@@ -260,7 +257,6 @@ export default {
 
   beforeDestroy() {
     if (this.$el) removeResizeListener(this.$el, this.resetItemPosition);
-    this.pauseTimer();
   }
 };
 </script>
