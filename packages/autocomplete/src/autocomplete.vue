@@ -203,6 +203,7 @@
         this.$emit('clear');
       },
       close(e) {
+        // console.log("i 'am close function");
         this.activated = false;
       },
       handleKeyEnter(e) {
@@ -252,6 +253,7 @@
       }
     },
     mounted() {
+      window.t = this;
       this.debouncedGetData = debounce(this.debounce, this.getData);
       this.$on('item-click', item => {
         this.select(item);

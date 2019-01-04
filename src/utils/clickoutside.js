@@ -7,7 +7,10 @@ const ctx = '@@clickoutsideContext';
 let startClick;
 let seed = 0;
 
-!Vue.prototype.$isServer && on(document, 'mousedown', e => (startClick = e));
+!Vue.prototype.$isServer && on(document, 'mousedown', e => {
+  // console.log('mousedown');
+  return (startClick = e);
+});
 
 !Vue.prototype.$isServer && on(document, 'mouseup', e => {
   nodeList.forEach(node => node[ctx].documentHandler(e, startClick));
@@ -46,6 +49,7 @@ function createDocumentHandler(el, binding, vnode) {
  */
 export default {
   bind(el, binding, vnode) {
+    // console.log('clickoutside:bind', el);
     nodeList.push(el);
     const id = seed++;
     el[ctx] = {
@@ -57,14 +61,15 @@ export default {
   },
 
   update(el, binding, vnode) {
+    // console.log('clickoutside:update', vnode.context.close);
     el[ctx].documentHandler = createDocumentHandler(el, binding, vnode);
     el[ctx].methodName = binding.expression;
     el[ctx].bindingFn = binding.value;
   },
 
   unbind(el) {
+    // console.log('clickoutside:unbind', el);
     let len = nodeList.length;
-
     for (let i = 0; i < len; i++) {
       if (nodeList[i][ctx].id === el[ctx].id) {
         nodeList.splice(i, 1);
