@@ -1,0 +1,588 @@
+// @import "mixins/mixins";
+// @import "common/var";
+
+// @include b(alert) {
+//   width: 100%;
+//   padding: $--alert-padding;
+//   margin: 0;
+//   box-sizing: border-box;
+//   border-radius: $--alert-border-radius;
+//   position: relative;
+//   background-color: $--color-white;
+//   overflow: hidden;
+//   opacity: 1;
+//   display: flex;
+//   align-items: center;
+//   transition: opacity .2s;
+// }
+p {
+  font: 10px/8px;
+  $width: 1000px;
+  width: $width/2;
+  // width: round(1.51)/2;
+  margin-left: 5px + 8px/2px;
+}
+
+p {
+  $font-size: 12px;
+  $line-height: 30px;
+  font: #{$font-size}/#{$line-height}
+}
+
+p {
+  color: #010203 + #040506;
+}
+
+p {
+  color: #010203 *2;
+}
+
+p {
+  color: rgba(255, 0, 0, 0.75) + rgba(0, 255, 0, 0.75);
+}
+
+// $translucent-red: rgba(255, 0, 0, 0.5);
+// p {
+//   color: opacify($translucent-red, 0.3);
+//   background-color: transparentize($translucent-red, 0.25)
+// }
+
+
+p {
+  cursor: e + -resize;
+}
+
+p:before {
+  content: 'Foo '+ Bar;
+  font-family: sans + '-serif';
+}
+
+p {
+  margin: 3px + 4px auto;
+}
+
+p:before {
+  content: "i ate #{5 + 10} pies！"
+}
+
+$value: null;
+
+p:before {
+  content: "I ate #{$value} pies!";
+}
+
+$a: 1px,
+2px,
+3px,
+4px;
+$b: 5px 6px 7px 8px;
+
+p {
+  margin: length($a);
+  margin: nth($a, 1);
+  margin: set-nth($a, 1, 99px);
+  margin: nth($a, 1);
+  margin: join($a, $b);
+  margin: append($a, $b);
+  margin: zip($a, $b);
+  margin: index($a, 33);
+  margin: list-separator($a);
+  margin: is-bracketed($a);
+
+}
+
+p {
+  width: 1em + 2em*3;
+}
+
+p {
+  color: hsl(0, 100%, 50%);
+}
+
+p {
+  color: hsl($hue: 0, $saturation: 100%, $lightness: 50%);
+}
+
+$name: foo;
+$attr: border;
+
+p.#{$name} {
+  #{$attr}-color: blue;
+}
+
+$content: 'First content';
+
+$content: 'Second content?' !default;
+$new_content: 'First time reference' !default;
+
+#main {
+  content: $content;
+  new-content: $new_content;
+}
+
+$content: null;
+$content: 'Non-null content' !default;
+
+#main {
+  content: $content;
+}
+
+// @import './main.scss';
+
+// .test {
+//   @import './main.scss';
+// }
+
+.sidebar {
+  width: 300px;
+
+  @media screen and (orientation: landscape) {
+    width: 500px;
+  }
+}
+
+@media screen {
+  .sidebar {
+    @media(orientation: landscape) {
+      width: 500px;
+    }
+  }
+}
+
+// .error {
+//   border: 1px #f00;
+//   background-color: #fdd;
+// }
+
+// .intrusion.error {
+//   background-image: url('/image/hacked.png');
+// }
+
+// .seriousError {
+//   @extend .error;
+//   border-width: 3px;
+// }
+
+// .hoverlink{
+//   @extend a:hover;
+// }
+// a:hover {
+//   text-decoration: underline;
+// }
+
+// .comment a.user:hover {
+//   font-weight: bold;
+// }
+
+// .error {
+//   border: 1px #fff;
+//   background-color: #fdd;
+// }
+
+// .attention {
+//   font-size: 3em;
+//   background-color: #ff0;
+// }
+
+// .seriousError {
+//   @extend .error;
+//   @extend .attention;
+//   border-width: 3px;
+// }
+
+// 另一种写法
+// .seriousError {
+//   @extend .error, .attention;
+//   color: red;
+// }
+
+
+// 7.3.4. 继续延伸 (Chaining Extends)
+// .error {
+//   border: 1px #f00;
+//   background-color: #fdd;
+// }
+// .seriousError {
+//   @extend .error;
+//   border-width: 3px;
+// }
+
+// .criticalError {
+//   @extend .seriousError;
+//   position: fix;
+//   top:10%;
+//   bottom:10px;
+//   left: 10%;
+//   right: 10%;
+// }
+
+// 7.3.5. 选择器列 (Selector Sequences)
+
+// #fake-links .link {
+//   @extend a;
+// }
+// a{
+//   color: blue;
+//   &:hover {
+//     text-decoration: underline;
+//   }
+// }
+
+// 当两个列 (sequence) 合并时，如果没有包含相同的选择器，将生成两个新选择器：第一列出现在第二列之前，或者第二列出现在第一列之前
+
+// #admin .tabbar a{
+//   font-weight: bold;
+// }
+
+// #demo .overview .fakelink {
+//   @extend a;
+// }
+
+// 如果两个列 (sequence) 包含了相同的选择器，相同部分将会合并在一起，其他部分交替输出。在下面的例子里，两个列都包含 #admin ，输出结果中它们合并在了一起：
+// #admin .tabbar a {
+//   font-weight: bold;
+// }
+// #admin .overview .fakelink {
+//   @extend a;
+// }
+
+// #context a%extreme {
+//   color: blue;
+//   font-weight: bold;
+//   font-size: 2em;
+// }
+
+// .notice {
+//   @extend %extreme;
+// }
+
+// a.important {
+//   @extend .notice !optional;
+// }
+
+// h1.notice {
+//   color: #f60;
+// }
+
+// 7.3.8. 在指令中延伸 (@extend in Directives)
+// @media print {
+//   .error {
+//     border: 1px solid #f00;
+//     background-color: #fdd;
+//   }
+//   .seriousError {
+//     @extend .error;
+//     border-width: 3px;
+//   }
+// }
+
+// 7.4. @at-root
+// 该@at-root指令导致在文档的根目录下发出一个或多个规则，而不是嵌套在其父选择器下面。它可以与单个内联选择器一起使用：
+
+// .parent {
+//   color: #f60;
+//   @at-root .child {
+//     font-size: 20px;
+//     @at-root .hello {
+//       background-color: f00;
+//       a{
+//         font-size: 16px;
+//       }
+//     }
+//   }
+// }
+
+// 或者它可以与包含多个选择器的块一起使用：
+// .parent {
+//   color: red;
+//   @at-root {
+//     .child1 {
+//       font-size: 20px;
+//     }
+//     .child2 {
+//       font-size: 30px;
+//     }
+//   }
+//   .step-child{
+//     color:blue;
+//     font-size: 40px;
+//   }
+// }
+
+// @at-root (without: ...) 和 @at-root (with: ...)
+// 默认情况下，@at-root只排除选择器。但是，它也可以用于@at-root移出嵌套指令之外@media。例如：
+// @media print {
+//   .page {
+//     width: 8in;
+//     @at-root (without: media) {
+//       color: red;
+//     }
+//     @at-root p{
+//       font-size: 30px;
+//     }
+//     // @at-root {
+//     //   background: #000;
+//     // }
+//   }
+// }
+
+// 您可以使用@at-root (without: ...)移出任何指令。
+
+// 如果要指定要包含的指令或规则，而不是列出应排除哪些指令或规则，则可以使用with而不是without。例如，@at-root (with: rule)将移出所有指令，但将保留任何CSS规则。
+
+// @warn
+
+// 该@warn指令将SassScript表达式的值打印到标准错误输出流。对于需要警告用户弃用或从较小的mixin使用错误中恢复的库来说，它非常有用
+
+
+// @mixin adjust-location($x, $y) {
+//   @if unitless($x) {
+//     @warn 'Assuming #{$x} to be in pixels';
+//     $x: 1px * $x;
+//   }
+
+//   @if unitless($y) {
+//     @warn 'Assuming #{$y} to be in pixels';
+//     $y: 1px * $y;
+//   }
+
+//   position: relative;
+//   left: $x;
+//   top:$y;
+// }
+
+// .test {
+//   @include adjust-location(20px, 30px);
+//   // @include adjust-location(20, 30);
+// }
+
+// @error
+// 该@error指令将SassScript表达式的值抛出为致命错误，包括一个很好的堆栈跟踪。它对于验证mixins和函数的参数很有用。例如：
+
+// @mixin adjust-location ($x,$y)
+
+// @mixin adjust-location($x, $y) {
+//   @if unitless($x) {
+//     @error "$x may not be unitless, was #{$x}";
+//   }
+
+//   @if unitless($y) {
+//     @error "$y may not be unitless, was #{$y}";
+//   }
+
+//   position: relative;
+//   left: $x;
+//   top: $y;
+// }
+
+// .test {
+//   @include adjust-location(20px, 50);
+// }
+
+// @if
+// p {
+//   @if 1+1 == 2 {border: 1px solid #ddd;}
+//   @if 5< 3 {font-size: 30px;}
+//   @if null {background: #000;}
+// }
+
+// p {
+//   @if 1+1 == 2 {border: 1px solid #ddd;}
+//   @if 5 > 3 {font-size: 30px;}
+//   @if 1 {background: #000;}
+//   @if 0 {font: 12/16px;}
+// }
+
+// @if 声明后面可以跟多个 @else if 声明，或者一个 @else 声明。如果 @if 声明失败，Sass 将逐条执行 @else if 声明，如果全部失败，最后执行 @else声明
+
+// $type: monster;
+// p {
+//   @if $type == ocean {
+//     color: blue;
+//   } @else if $type == matador {
+//     color: red;
+//   } @else if $type == monster {
+//     color: green;
+//   } @else {
+//     color: black;
+//   }
+// }
+
+
+// @for $i from 1 through 3 {
+//   .item-#{$i} {
+//     width: 2em * $i;
+//   }
+// }
+
+// @each $animal in puma,
+// sea-slug,
+// egret,
+// salamander {
+//   .#{$animal}-icon {
+//     background-image: url('/images/#{$animal}.png');
+//   }
+// }
+
+// @each $animal,
+// $color,
+// $cursor in (puma, black, default),
+// (sea-slug, blue, pointer),
+// (egret, white, move) {
+//   .#{$animal}-icon {
+//     background-image: url('/images/#{$animal}.png');
+//     border: 2px solid $color;
+//     cursor: $cursor;
+//   }
+// }
+
+// @each $header,
+// $size in (h1: 2em, h2: 1.5em, h3: 1.2em) {
+//   #{$header} {
+//     font-size: $size;
+//   }
+// }
+
+
+
+// $i: 6;
+
+// @while $i>0 {
+//   .item-#{$i} {
+//     width: 2em * $i;
+//   }
+
+//   $i: $i - 2;
+// }
+
+// @mixin large-text {
+//   font: {
+//     family: Arial;
+//     size:20px;
+//     weight: bold;
+//   }
+//   color: #f00;
+// }
+
+// .test {
+//   @include large-text;
+// }
+
+// @mixin clearfix {
+//   display: inline-block;
+//   &:after {
+//     content: '.';
+//     display:block;
+//     height: 0;
+//     clear:both;
+//     visibility: hidden;
+//   }
+//   * html & {height: 1px;}
+// }
+
+// .clear{
+//   @include clearfix();
+// }
+
+// @mixin box-shadow($shadows...) {
+//   box-shadow: $shadows;
+// }
+
+// .shadows {
+//   @include box-shadow(0px 4px 5px #666,  2px 6px 10px #999);
+// }
+
+// @mixin colors($text, $background, $border) {
+//   color: $text;
+//   background-color: $background;
+//   border-color: $border;
+// }
+
+// .test {
+//   @include colors(
+//     $text: #f60,
+//     $background: red,
+//     $border: #000,
+//     )
+// }
+
+// $values: #f00, #0f0, #00f;
+
+// .primary {
+//   @include colors($values... )
+// }
+
+// 在引用混合样式的时候，可以先将一段代码导入到混合指令中，然后再输出混合样式，额外导入的部分将出现在 @content 标志的地方
+
+
+// @mixin apply-to-ie6-only{
+//   *html {
+//     @content;
+//   }
+// }
+
+// @include apply-to-ie6-only {
+//   #logo {
+//     background-image: url('/logo.gif')
+//   }
+// }
+
+// .test {
+//   @include apply-to-ie6-only {
+//     .child1{
+//       font-size: 20px;
+//     }
+//   }
+// }
+
+
+// 可变范围和内容块
+// 传递给mixin的内容块在定义块的范围内进行评估，而不是在mixin的范围内。这意味着mixin的局部变量不能在传递的样式块中使用，变量将解析为全局值：
+$color: white;
+
+@mixin color($color:blue) {
+  background-color: $color;
+  @content;
+  border-color: $color;
+}
+.colors  {
+  @include color {
+    color: $color;
+    font-size: 20px;
+  }
+  .test {
+    @include color(#f60);
+  }
+}
+
+$grid-width: 40px;
+$gutter-width: 10px;
+
+@function grid-width($n) {
+  @return $n * $grid-width+($n - 1) * $gutter-width;
+}
+
+#sidebar {
+  width: grid-width(5);
+}
+
+
+// mix
+
+
+// 将3中颜色 的比重 进行分别计算相加
+// ff的一半是：先加 1 再除 2
+// 默认的权重是50%
+// “25％”表示应使用第一种颜色的四分之一和第二种颜色的四分之三。
+.mix {
+  color: rgba(mix(#f00, #00f), 0.5); // rgba(128,0,128,0.5)
+  background: mix(#f00, #00f) == #800080;
+  color: mix(#f00,#00f,25%);
+  color: mix(rgba(255, 0, 0, 0.5), #00f);
+  color: hsl(0,100%, 100%);
+  color: hsl(0,100%,50%);
+
+}
+
+// ff: (ff + 1) * 0.75 - 1 = bf
+// ff: (ff +1)  * 0.25 = 40

@@ -3,15 +3,16 @@
 /* BEM support Func
  -------------------------- */
 @function selectorToString($selector) {
-  $selector: inspect($selector);
-  $selector: str-slice($selector, 2, -2);
+  $selector: inspect($selector); // 返回值在Sass中表示的字符串表示形式。
+  $selector: str-slice($selector, 2, -2); // slice ()
   @return $selector;
 }
 
 @function containsModifier($selector) {
   $selector: selectorToString($selector);
 
-  @if str-index($selector, $modifier-separator) {
+  @if str-index($selector, $modifier-separator) { // --
+    // 返回`$selector`中第一次出现`$modifier-separator`的索引。 如果没有这种情况，则返回“null”。
     @return true;
   } @else {
     @return false;
@@ -21,7 +22,8 @@
 @function containWhenFlag($selector) {
   $selector: selectorToString($selector);
 
-  @if str-index($selector, '.' + $state-prefix) {
+  @if str-index($selector, '.'+ $state-prefix) {
+    // .is-
     @return true
   } @else {
     @return false
@@ -32,6 +34,7 @@
   $selector: selectorToString($selector);
 
   @if str-index($selector, ':') {
+    // :
     @return true
   } @else {
     @return false

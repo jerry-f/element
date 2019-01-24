@@ -74,10 +74,10 @@
     @content;
   }
 }
-
+// .el-alert__$element
 @mixin e($element) {
   $E: $element !global;
-  $selector: &;
+  $selector: &; // .el-alert
   $currentSelector: "";
   @each $unit in $element {
     $currentSelector: #{$currentSelector + "." + $B + $element-separator + $unit + ","};
@@ -94,12 +94,14 @@
   } @else {
     @at-root {
       #{$currentSelector} {
+        color: '#{ $selector}';
         @content;
       }
     }
   }
 }
 
+// 添加成 .$--$modifier
 @mixin m($modifier) {
   $selector: &;
   $currentSelector: "";
