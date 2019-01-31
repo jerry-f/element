@@ -9,6 +9,8 @@ const loadingDirective = {};
 loadingDirective.install = Vue => {
   if (Vue.prototype.$isServer) return;
   const toggleLoading = (el, binding) => {
+    console.log('toggleLoading-binding', binding);
+    console.log('toggleLoading-el', el);
     if (binding.value) {
       Vue.nextTick(() => {
         if (binding.modifiers.fullscreen) {
@@ -115,6 +117,7 @@ loadingDirective.install = Vue => {
     },
 
     unbind: function(el, binding) {
+      console.log('unbind-loading');
       if (el.domInserted) {
         el.mask &&
         el.mask.parentNode &&

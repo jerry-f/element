@@ -253,7 +253,7 @@
       }
     },
     mounted() {
-      window.t = this;
+      // window.t = this;
       this.debouncedGetData = debounce(this.debounce, this.getData);
       this.$on('item-click', item => {
         this.select(item);

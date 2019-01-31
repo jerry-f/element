@@ -10,6 +10,7 @@ export default function(instance, callback, speed = 300, once = false) {
   if (!instance || !callback) throw new Error('instance & callback is required');
   let called = false;
   const afterLeaveCallback = function() {
+    console.log('执行12');
     if (called) return;
     called = true;
     if (callback) {

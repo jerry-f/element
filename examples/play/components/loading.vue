@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table v-loading="loading2" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)" :data="tableData" style="width: 100%">
+    <el-table v-if="show" v-loading="loading2" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)" :data="tableData" style="width: 100%">
       <el-table-column prop="date" label="日期" width="180">
       </el-table-column>
       <el-table-column prop="name" label="姓名" width="180">
@@ -8,6 +8,8 @@
       <el-table-column prop="address" label="地址">
       </el-table-column>
     </el-table>
+    <el-button @click="show = !show">show table</el-button>
+    <el-button @click="loading2 = !loading2">toggleTable</el-button>
     <el-button type="primary" @click="openFullScreen" v-loading.fullscreen.lock="fullscreenLoading">
       指令方式
     </el-button>
@@ -19,10 +21,12 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
       fullscreenLoading: false,
+      show: false,
       tableData: [
         {
           date: '2016-05-03',
