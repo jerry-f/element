@@ -274,6 +274,8 @@
     },
 
     mounted() {
+      // window.hash = this;
+      // console.log(this.close);
       this.$nextTick(() => {
         if (this.closeOnHashChange) {
           window.addEventListener('hashchange', this.close);
@@ -282,6 +284,7 @@
     },
 
     beforeDestroy() {
+      // console.log('执行 beforeDestroy！！');
       if (this.closeOnHashChange) {
         window.removeEventListener('hashchange', this.close);
       }

@@ -172,6 +172,7 @@ export default {
     },
 
     close() {
+      // console.log('是这个 close');
       if (this.willClose && !this.willClose()) return;
 
       if (this._openTimer !== null) {
