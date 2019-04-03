@@ -58,6 +58,7 @@ export default {
   },
 
   beforeDestroy() {
+    console.log('执行 popup beforeDestroy');
     PopupManager.deregister(this._popupId);
     PopupManager.closeModal(this._popupId);
 
@@ -76,6 +77,7 @@ export default {
 
   watch: {
     visible(val) {
+      // 也会执行到这儿来
       if (val) {
         if (this._opening) return;
         if (!this.rendered) {
@@ -172,7 +174,7 @@ export default {
     },
 
     close() {
-      // console.log('是这个 close');
+      // 这里的 close 执行的逻辑为: _openTimer _closeTimer
       if (this.willClose && !this.willClose()) return;
 
       if (this._openTimer !== null) {

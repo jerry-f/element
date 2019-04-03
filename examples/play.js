@@ -12,7 +12,7 @@ const router = new VueRouter({
   base: __dirname,
   routes,
   fallback: false,
-  mode: 'history',
+  mode: 'hash',
   scrollBehavior() {
     return {
       x: 0,

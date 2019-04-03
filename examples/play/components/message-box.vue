@@ -8,21 +8,36 @@
 
 <script>
 export default {
+  data () {
+    return {
+      alert:'',
+      msgbox: ''
+    }
+  },
+  mounted() {
+    window.box = this
+  },
   methods: {
     open() {
-      this.$alert('这是一段内容', '标题名称', {
-        confirmButtonText: '确定',
-        callback: action => {
-          this.$message({
-            type: 'info',
-            message: `action: ${action}`
-          })
-        }
-      })
+      // this.alert = this.$alert('这是一段内容', '标题名称', {
+      //   confirmButtonText: '确定',
+      //   callback: action => {
+      //     // this.$message({
+      //     //   type: 'info',
+      //     //   message: `action: ${action}`
+      //     // })
+      //   }
+      // })
+      this.alert = this.$msgbox({
+        title: '标题名称',
+        message: '这是一段内容',
+        showCancelButton: true
+      }).then((res) => {
+      }).catch(() => {})
     },
     open4() {
       const h = this.$createElement
-      this.$msgbox({
+      this.msgbox = this.$msgbox({
         title: '消息',
         message: h('p', null, [
           h('span', null, '内容可以是 '),
@@ -52,6 +67,14 @@ export default {
         })
       })
     }
+  },
+  watch: {
+          // $route({ path, meta }) {
+      //   console.log(path, meta);
+      // },
+      $route: function(to, from) {
+        console.log(to, from);
+      },
   }
 }
 </script>

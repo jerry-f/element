@@ -165,13 +165,16 @@
           setTimeout(this.restoreBodyStyle, 200);
         }
         this.opened = false;
+        // 先把 蒙层关掉
         this.doAfterClose();
         setTimeout(() => {
+          // 再执行 callback 回调事件
           if (this.action) this.callback(this.action, this);
         });
       },
 
       handleWrapperClick() {
+        console.log('handleWrapperClick');
         if (this.closeOnClickModal) {
           this.handleAction(this.distinguishCancelAndClose ? 'close' : 'cancel');
         }
@@ -255,7 +258,9 @@
             });
           }
           this.focusAfterClosed = document.activeElement;
+          // 只是用于获取简单的方式
           messageBox = new Dialog(this.$el, this.focusAfterClosed, this.getFirstFocus());
+          this._focus = messageBox;
         }
 
         // prompt
@@ -274,19 +279,21 @@
     },
 
     mounted() {
-      // window.hash = this;
-      // console.log(this.close);
+      window.hash = this;
       this.$nextTick(() => {
         if (this.closeOnHashChange) {
-          window.addEventListener('hashchange', this.close);
+          // 可以能由于浏览器原因 '这里注册的事件不会执行'
+          // window.addEventListener('hashchange', this.close);
         }
       });
     },
 
     beforeDestroy() {
-      // console.log('执行 beforeDestroy！！');
+      // 这儿的 beforeDestroy 好像不会被执行
+      console.log('执行 beforeDestroy！！');
       if (this.closeOnHashChange) {
-        window.removeEventListener('hashchange', this.close);
+        // 可以能由于浏览器原因 '这里注册的事件不会执行'
+        // window.removeEventListener('hashchange', this.close);
       }
       setTimeout(() => {
         messageBox.closeDialog();
@@ -295,6 +302,7 @@
 
     data() {
       return {
+        _focus: '',
         uid: 1,
         title: undefined,
         message: '',

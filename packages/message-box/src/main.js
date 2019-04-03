@@ -36,11 +36,14 @@ const defaults = {
 import Vue from 'vue';
 import msgboxVue from './main.vue';
 import merge from 'element-ui/src/utils/merge';
-import { isVNode } from 'element-ui/src/utils/vdom';
+import {
+  isVNode
+} from 'element-ui/src/utils/vdom';
 
 const MessageBoxConstructor = Vue.extend(msgboxVue);
 
-let currentMsg, instance;
+let currentMsg;
+let instance = null;
 let msgQueue = [];
 
 const defaultCallback = action => {
@@ -54,9 +57,15 @@ const defaultCallback = action => {
       }
     }
     if (currentMsg.resolve) {
+      // 判断调用的 是哪个按钮执行对于的逻辑
       if (action === 'confirm') {
+        // 确定时的逻辑
         if (instance.showInput) {
-          currentMsg.resolve({ value: instance.inputValue, action });
+          // 此时才去执行那个 Promise 的回调
+          currentMsg.resolve({
+            value: instance.inputValue,
+            action
+          });
         } else {
           currentMsg.resolve(action);
         }
@@ -76,6 +85,7 @@ const initInstance = () => {
 };
 
 const showNextMsg = () => {
+  console.log('执行 showNextMsg');
   if (!instance) {
     initInstance();
   }
@@ -98,6 +108,7 @@ const showNextMsg = () => {
       let oldCb = instance.callback;
       instance.callback = (action, instance) => {
         oldCb(action, instance);
+        // 这里为什么要调用两次? 清空 instance.action
         showNextMsg();
       };
       if (isVNode(instance.message)) {
@@ -213,4 +224,6 @@ MessageBox.close = () => {
 };
 
 export default MessageBox;
-export { MessageBox };
+export {
+  MessageBox
+};
