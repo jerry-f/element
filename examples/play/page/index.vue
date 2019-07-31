@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-view></router-view>
+    <!-- <router-view></router-view> -->
     <msg-box></msg-box>
     <loading />
     <!-- <f-dia-log></f-dia-log> -->

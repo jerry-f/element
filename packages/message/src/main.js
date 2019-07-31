@@ -3,6 +3,7 @@ import Main from './main.vue';
 import { PopupManager } from 'element-ui/src/utils/popup';
 import { isVNode } from 'element-ui/src/utils/vdom';
 let MessageConstructor = Vue.extend(Main);
+console.log(Main);
 
 let instance;
 let instances = [];
@@ -25,6 +26,7 @@ const Message = function(options) {
   instance = new MessageConstructor({
     data: options
   });
+  console.log(instance);
   instance.id = id;
   if (isVNode(instance.message)) {
     instance.$slots.default = [instance.message];
@@ -55,6 +57,7 @@ Message.close = function(id, userOnClose) {
   console.log('close事件', id, userOnClose);
   for (let i = 0, len = instances.length; i < len; i++) {
     if (id === instances[i].id) {
+      console.log('执行user 自定义的 onClose 事件');
       if (typeof userOnClose === 'function') {
         userOnClose(instances[i]);
       }

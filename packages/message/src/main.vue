@@ -59,8 +59,9 @@
 
     watch: {
       closed(newVal) {
+        console.log('watch closed Rung');
         if (newVal) {
-          this.visible = false;
+          this.visible = false; // 触发 动画事件
           this.$el.addEventListener('transitionend', this.destroyElement);
         }
       }
@@ -69,9 +70,10 @@
     methods: {
       destroyElement() {
         /* 删除事件， */
-        console.log('移除事件');
+        console.log('移除动画事件');
         this.$el.removeEventListener('transitionend', this.destroyElement);
         this.$destroy(true);
+        console.log('destroyElement isOver');
         this.$el.parentNode.removeChild(this.$el);
       },
 
@@ -79,6 +81,7 @@
         console.log('close事件2', this.onClose);
         this.closed = true;
         if (typeof this.onClose === 'function') {
+          console.log('移除事件 前后 ？');
           this.onClose(this);
         }
       },
@@ -109,7 +112,12 @@
       document.addEventListener('keydown', this.keydown);
     },
     beforeDestroy() {
+      console.log('beforeDestroy');
       document.removeEventListener('keydown', this.keydown);
+    },
+    destroyed(num) {
+      console.log(num);
+      console.log('is over ');
     }
   };
 </script>
