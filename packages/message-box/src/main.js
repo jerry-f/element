@@ -122,7 +122,12 @@ const showNextMsg = () => {
           instance[prop] = true;
         }
       });
-      document.body.appendChild(instance.$el);
+      // 这里重复的 appendChild
+      if (!instance.__appended) {
+        console.log('第一次 appendChild');
+        document.body.appendChild(instance.$el);
+        instance.__appended = true;
+      }
 
       Vue.nextTick(() => {
         instance.visible = true;

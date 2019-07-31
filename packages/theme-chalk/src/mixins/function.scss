@@ -4,10 +4,11 @@
  -------------------------- */
 @function selectorToString($selector) {
   $selector: inspect($selector); // 返回值在Sass中表示的字符串表示形式。
-  $selector: str-slice($selector, 2, -2); // slice ()
+  $selector: str-slice($selector, 2, -2); // slice (1,-1)
   @return $selector;
 }
 
+/************** 包含有 $modifier-separator “--” 修饰语  ********************/
 @function containsModifier($selector) {
   $selector: selectorToString($selector);
 
@@ -19,25 +20,28 @@
   }
 }
 
+
+/************** 包含有 状态前缀 ********************/
 @function containWhenFlag($selector) {
   $selector: selectorToString($selector);
 
   @if str-index($selector, '.'+ $state-prefix) {
     // .is-
-    @return true
+    @return true;
   } @else {
-    @return false
+    @return false;
   }
 }
 
+/************** 包含有 伪 选择器 ********************/
 @function containPseudoClass($selector) {
   $selector: selectorToString($selector);
 
   @if str-index($selector, ':') {
     // :
-    @return true
+    @return true;
   } @else {
-    @return false
+    @return false;
   }
 }
 

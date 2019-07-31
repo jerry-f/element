@@ -175,6 +175,7 @@ export default {
 
     close() {
       // 这里的 close 执行的逻辑为: _openTimer _closeTimer
+      alert('close');
       if (this.willClose && !this.willClose()) return;
 
       if (this._openTimer !== null) {

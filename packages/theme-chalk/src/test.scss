@@ -568,8 +568,6 @@ $gutter-width: 10px;
 
 
 // mix
-
-
 // 将3中颜色 的比重 进行分别计算相加
 // ff的一半是：先加 1 再除 2
 // 默认的权重是50%
@@ -586,3 +584,64 @@ $gutter-width: 10px;
 
 // ff: (ff + 1) * 0.75 - 1 = bf
 // ff: (ff +1)  * 0.25 = 40
+
+/************** 测试 function ********************/
+@import './mixins/function.scss';
+@import './mixins/mixins.scss';
+
+.my-function {
+  width: selectorToString('8765px');
+  z-index: str-index('abcd', 'd');
+}
+
+@include res(xs) {
+  .el-col-xs-0 {
+    display: none;
+  }
+}
+// .my-colors {
+//   border: 1px solid #333;
+//   @include res {
+//     .test{
+//       font-size: 200px;
+//     }
+//   };
+// }
+
+/************** @content ********************/
+$color: white;
+@mixin colors($color: blue) {
+  background-color: $color;
+  @content;
+  border-color: $color;
+}
+.colors {
+  @include colors {
+    color: $color;
+    font-size: 20px;
+  }
+}
+
+/************** scroll-bar ********************/
+.scroll {
+  @include scroll-bar;
+}
+
+/************** placeholder ********************/
+
+.my-input {
+  @include placeholder {
+    font-size: 200px;
+  }
+}
+
+/************** BEM ********************/
+
+// @include b(test-bem) {
+//   border: 1px solid #333;
+// }
+
+
+// @include e(test-e test-m) {
+//   font-family: Arial, sans-serif;
+// }

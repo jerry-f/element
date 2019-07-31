@@ -21,7 +21,7 @@ const router = new VueRouter({
   }
 });
 
-new Vue({ // eslint-disable-line
+window.Vue = new Vue({ // eslint-disable-line
   render: h => h(App),
   router
 }).$mount('#app');
