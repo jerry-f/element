@@ -51,8 +51,8 @@ export default {
       default: false
     }
   },
-
   beforeMount() {
+    console.log('popup of beforeMount');
     this._popupId = 'popup-' + idSeed++;
     PopupManager.register(this._popupId, this);
   },
@@ -78,6 +78,7 @@ export default {
   watch: {
     visible(val) {
       // 也会执行到这儿来
+      console.log('watch visible of popup components');
       if (val) {
         if (this._opening) return;
         if (!this.rendered) {
@@ -175,7 +176,7 @@ export default {
 
     close() {
       // 这里的 close 执行的逻辑为: _openTimer _closeTimer
-      alert('close');
+      console.log('close methods of popup components');
       if (this.willClose && !this.willClose()) return;
 
       if (this._openTimer !== null) {

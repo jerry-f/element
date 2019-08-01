@@ -77,9 +77,12 @@ const defaultCallback = action => {
 };
 
 const initInstance = () => {
+  console.log('初始化 instance 实例');
   instance = new MessageBoxConstructor({
     el: document.createElement('div')
   });
+  console.log('初始化 instance 实例 结束');
+  window.ins = instance;
 
   instance.callback = defaultCallback;
 };
@@ -91,13 +94,17 @@ const showNextMsg = () => {
   }
   instance.action = '';
 
+  // 新创建的 instance 没有 visible 属性 closeTimer 属性
   if (!instance.visible || instance.closeTimer) {
+    console.log('再来哈');
     if (msgQueue.length > 0) {
       currentMsg = msgQueue.shift();
+      window.currentMsg = currentMsg;
 
       let options = currentMsg.options;
       for (let prop in options) {
         if (options.hasOwnProperty(prop)) {
+          // 把 options 的数据放在实例 instance 上
           instance[prop] = options[prop];
         }
       }
@@ -107,6 +114,7 @@ const showNextMsg = () => {
 
       let oldCb = instance.callback;
       instance.callback = (action, instance) => {
+        console.log('执行 callback');
         oldCb(action, instance);
         // 这里为什么要调用两次? 清空 instance.action
         showNextMsg();
@@ -122,12 +130,14 @@ const showNextMsg = () => {
           instance[prop] = true;
         }
       });
-      // 这里重复的 appendChild
-      if (!instance.__appended) {
-        console.log('第一次 appendChild');
-        document.body.appendChild(instance.$el);
-        instance.__appended = true;
-      }
+
+      document.body.appendChild(instance.$el);
+      // // 这里重复的 appendChild
+      // if (!instance.__appended) {
+      //   console.log('第一次 appendChild');
+      //   document.body.appendChild(instance.$el);
+      //   instance.__appended = true;
+      // }
 
       Vue.nextTick(() => {
         instance.visible = true;

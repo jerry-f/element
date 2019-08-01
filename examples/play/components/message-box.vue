@@ -59,7 +59,8 @@ export default {
       //     // })
       //   }
       // })
-      this.alert = this.$msgbox({
+      // this.alert = this.$msgbox({
+      this.alert = this.$alert({
         title: '标题名称',
         message: '这是一段内容',
         showCancelButton: true

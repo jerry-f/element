@@ -3,7 +3,6 @@ import Main from './main.vue';
 import { PopupManager } from 'element-ui/src/utils/popup';
 import { isVNode } from 'element-ui/src/utils/vdom';
 let MessageConstructor = Vue.extend(Main);
-console.log(Main);
 
 let instance;
 let instances = [];

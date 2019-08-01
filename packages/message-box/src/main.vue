@@ -155,9 +155,11 @@
         };
       },
       doClose() {
+        console.log('doClose of main components');
         if (!this.visible) return;
         this.visible = false;
         this._closing = true;
+        console.log('doClose of main components after visible change');
 
         this.onClose && this.onClose();
         messageBox.closeDialog(); // 解绑
@@ -169,6 +171,7 @@
         this.doAfterClose();
         setTimeout(() => {
           // 再执行 callback 回调事件
+          console.log('action: ', this.action);
           if (this.action) this.callback(this.action, this);
         });
       },
@@ -191,6 +194,7 @@
           return;
         }
         this.action = action;
+        console.log('action come in', this.action);
         if (typeof this.beforeClose === 'function') {
           this.close = this.getSafeClose();
           this.beforeClose(action, this, this.close);
@@ -250,6 +254,7 @@
       },
 
       visible(val) {
+        console.log('watch visible of main components');
         if (val) {
           this.uid++;
           if (this.$type === 'alert' || this.$type === 'confirm') {
@@ -277,13 +282,13 @@
         }
       }
     },
-
     mounted() {
+      console.log('main of mounted');
       window.hash = this;
       this.$nextTick(() => {
         if (this.closeOnHashChange) {
           // 可以能由于浏览器原因 '这里注册的事件不会执行'
-          // window.addEventListener('hashchange', this.close);
+          window.addEventListener('hashchange', this.close);
         }
       });
     },
@@ -293,7 +298,7 @@
       console.log('执行 beforeDestroy！！');
       if (this.closeOnHashChange) {
         // 可以能由于浏览器原因 '这里注册的事件不会执行'
-        // window.removeEventListener('hashchange', this.close);
+        window.removeEventListener('hashchange', this.close);
       }
       setTimeout(() => {
         messageBox.closeDialog();
