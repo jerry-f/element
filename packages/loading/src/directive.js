@@ -8,6 +8,7 @@ const Mask = Vue.extend(Loading);
 const loadingDirective = {};
 loadingDirective.install = Vue => {
   if (Vue.prototype.$isServer) return;
+
   const toggleLoading = (el, binding) => {
     console.log('toggleLoading-binding', binding);
     console.log('toggleLoading-el', el);
@@ -87,6 +88,7 @@ loadingDirective.install = Vue => {
 
   Vue.directive('loading', {
     bind: function(el, binding, vnode) {
+      console.log(el);
       const textExr = el.getAttribute('element-loading-text');
       const spinnerExr = el.getAttribute('element-loading-spinner');
       const backgroundExr = el.getAttribute('element-loading-background');
@@ -110,6 +112,7 @@ loadingDirective.install = Vue => {
     },
 
     update: function(el, binding) {
+      console.log('update');
       el.instance.setText(el.getAttribute('element-loading-text'));
       if (binding.oldValue !== binding.value) {
         toggleLoading(el, binding);

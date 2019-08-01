@@ -28,7 +28,7 @@ LoadingConstructor.prototype.close = function() {
     const target = this.fullscreen || this.body
       ? document.body
       : this.target;
-    removeClass(target, 'el-loading-parent--relative');
+    removeClass(target, 'el-loading-parent--relative'); // 移除 position: realtive
     removeClass(target, 'el-loading-parent--hidden');
     if (this.$el && this.$el.parentNode) {
       this.$el.parentNode.removeChild(this.$el);
@@ -59,6 +59,7 @@ const addStyle = (options, parent, instance) => {
   } else {
     instance.originalPosition = getStyle(parent, 'position');
   }
+  console.log(maskStyle);
   Object.keys(maskStyle).forEach(property => {
     instance.$el.style[property] = maskStyle[property];
   });
@@ -72,6 +73,7 @@ const Loading = (options = {}) => {
   }
   options.target = options.target || document.body;
   if (options.target !== document.body) {
+    // 是否为全屏
     options.fullscreen = false;
   } else {
     options.body = true;

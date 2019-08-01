@@ -13,6 +13,7 @@ let seed = 0;
 });
 
 !Vue.prototype.$isServer && on(document, 'mouseup', e => {
+  // console.log('mouseup');
   nodeList.forEach(node => node[ctx].documentHandler(e, startClick));
 });
 
@@ -49,7 +50,8 @@ function createDocumentHandler(el, binding, vnode) {
  */
 export default {
   bind(el, binding, vnode) {
-    // console.log('clickoutside:bind', el);
+    console.log('clickoutside:bind', el);
+    console.log(vnode);
     nodeList.push(el);
     const id = seed++;
     el[ctx] = {
@@ -58,6 +60,7 @@ export default {
       methodName: binding.expression,
       bindingFn: binding.value
     };
+    console.log(el[ctx].methodName);
   },
 
   update(el, binding, vnode) {

@@ -2,7 +2,8 @@
   <div>
     <!-- <router-view></router-view> -->
     <msg-box></msg-box>
-    <loading />
+    <!-- <loading /> -->
+    <Select/>
     <!-- <f-dia-log></f-dia-log> -->
     <!-- <el-button @click="auto = !auto">切换 autoPlay</el-button>
     <auto-play v-if="auto"></auto-play>
@@ -18,8 +19,9 @@ import autoPlay from '../components/auto-play.vue'
 import date from '../components/date.vue'
 import myloading from '../../../packages/loading/src/index.js'
 import MsgBox from '../components/message-box'
+import Select from '../components/select'
 export default {
-  components: { loading, fDiaLog, autoPlay, date, MsgBox },
+  components: { loading, fDiaLog, autoPlay, date, MsgBox, Select },
   data() {
     return {
       auto: false,

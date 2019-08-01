@@ -185,6 +185,7 @@
       if (this.visible) {
         this.rendered = true;
         this.open();
+        // 这个属性 原理在这里使用
         if (this.appendToBody) {
           document.body.appendChild(this.$el);
         }
