@@ -50,8 +50,8 @@ function createDocumentHandler(el, binding, vnode) {
  */
 export default {
   bind(el, binding, vnode) {
-    console.log('clickoutside:bind', el);
-    console.log(vnode);
+    // console.log('clickoutside:bind', el);
+    // console.log(vnode);
     nodeList.push(el);
     const id = seed++;
     el[ctx] = {
@@ -60,7 +60,7 @@ export default {
       methodName: binding.expression,
       bindingFn: binding.value
     };
-    console.log(el[ctx].methodName);
+    // console.log(el[ctx].methodName);
   },
 
   update(el, binding, vnode) {

@@ -1,13 +1,14 @@
 <template>
-  <div>
+  <div class="home">
     <!-- <router-view></router-view> -->
-    <msg-box></msg-box>
+    <!-- <msg-box></msg-box> -->
     <!-- <loading /> -->
-    <Select/>
+    <!-- <Select/> -->
+    <!-- <DropDown/> -->
     <!-- <f-dia-log></f-dia-log> -->
+    <date></date>
     <!-- <el-button @click="auto = !auto">切换 autoPlay</el-button>
     <auto-play v-if="auto"></auto-play>
-    <date></date>
     <el-button @click="tryLoading">试试是有用没</el-button> -->
   </div>
 </template>
@@ -20,8 +21,10 @@ import date from '../components/date.vue'
 import myloading from '../../../packages/loading/src/index.js'
 import MsgBox from '../components/message-box'
 import Select from '../components/select'
+import DropDown from '../components/dropdown'
+import MydatePicker from '../components/mydate-picker'
 export default {
-  components: { loading, fDiaLog, autoPlay, date, MsgBox, Select },
+  components: { loading, fDiaLog, autoPlay, date, MsgBox, Select, DropDown, MydatePicker },
   data() {
     return {
       auto: false,
