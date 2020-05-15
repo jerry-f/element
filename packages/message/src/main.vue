@@ -1,5 +1,5 @@
 <template>
-  <transition name="el-message-fade">
+  <transition name="el-message-fade" @after-leave="handleAfterLeave">
     <div
       :class="[
         'el-message',
@@ -8,6 +8,7 @@
         showClose ? 'is-closable' : '',
         customClass
       ]"
+      :style="positionStyle"
       v-show="visible"
       @mouseenter="clearTimer"
       @mouseleave="startTimer"
@@ -43,6 +44,7 @@
         onClose: null,
         showClose: false,
         closed: false,
+        verticalOffset: 20,
         timer: null,
         dangerouslyUseHTMLString: false,
         center: false
@@ -54,6 +56,11 @@
         return this.type && !this.iconClass
           ? `el-message__icon el-icon-${ typeMap[this.type] }`
           : '';
+      },
+      positionStyle() {
+        return {
+          'top': `${ this.verticalOffset }px`
+        };
       }
     },
 
@@ -61,17 +68,13 @@
       closed(newVal) {
         console.log('watch closed Rung');
         if (newVal) {
-          this.visible = false; // 触发 动画事件
-          this.$el.addEventListener('transitionend', this.destroyElement);
+          this.visible = false;
         }
       }
     },
 
     methods: {
-      destroyElement() {
-        /* 删除事件， */
-        console.log('移除动画事件');
-        this.$el.removeEventListener('transitionend', this.destroyElement);
+      handleAfterLeave() {
         this.$destroy(true);
         console.log('destroyElement isOver');
         this.$el.parentNode.removeChild(this.$el);

@@ -1,38 +1,23 @@
-<style scoped>
-.headerWrapper {
-  height: 80px;
-}
-
-.header {
-  height: 80px;
-  background-color: #fff;
-  color: #fff;
-  top: 0;
-  left: 0;
-  width: 100%;
-  line-height: @height;
-  z-index: 100;
-  position: relative;
-
-  .container {
-    height: 100%;
-    box-sizing: border-box;
+<style lang="scss" scoped>
+  .headerWrapper {
+    height: 80px;
   }
 
-  .nav-lang-spe {
-    color: #888;
-  }
+  .header {
+    height: 80px;
+    background-color: #fff;
+    color: #fff;
+    top: 0;
+    left: 0;
+    width: 100%;
+    line-height: 80px;
+    z-index: 100;
+    position: relative;
 
-  h1 {
-    margin: 0;
-    float: left;
-    font-size: 32px;
-    font-weight: normal;
-
-    a {
-      color: #333;
-      text-decoration: none;
-      display: block;
+    .container {
+      height: 100%;
+      box-sizing: border-box;
+      border-bottom: 1px solid #DCDFE6;
     }
 
     span {
@@ -75,10 +60,21 @@
     }
   }
 
-  .nav-logo,
-  .nav-logo-small {
-    vertical-align: sub;
-  }
+    .nav {
+      float: right;
+      height: 100%;
+      line-height: 80px;
+      background: transparent;
+      padding: 0;
+      margin: 0;
+      &::before, &::after {
+        display: table;
+        content: "";
+      }
+      &::after {
+        clear: both;
+      }
+    }
 
   .nav-logo-small {
     display: none;
@@ -120,26 +116,28 @@
       }
     }
 
-    a {
-      text-decoration: none;
-      color: #888;
-      display: block;
-      padding: 0 22px;
+      a {
+        text-decoration: none;
+        color: #1989FA;
+        opacity: 0.5;
+        display: block;
+        padding: 0 22px;
 
-      &.active,
-      &:hover {
-        color: #333;
-      }
+        &.active,
+        &:hover {
+          opacity: 1;
+        }
 
-      &.active::after {
-        content: '';
-        display: inline-block;
-        position: absolute;
-        bottom: 15px;
-        left: calc(50% - 7px);
-        width: 14px;
-        height: 4px;
-        background: #409eff;
+        &.active::after {
+          content: '';
+          display: inline-block;
+          position: absolute;
+          bottom: 0;
+          left: calc(50% - 15px);
+          width: 30px;
+          height: 2px;
+          background: #409EFF;
+        }
       }
     }
   }
@@ -177,8 +175,14 @@
     i {
       color: #409eff;
     }
-    i {
-      transform: rotateZ(180deg) translateY(3px);
+
+    .is-active {
+      span, i {
+        color: #409EFF;
+      }
+      i {
+        transform: rotateZ(180deg) translateY(3px);
+      }
     }
   }
 
@@ -288,6 +292,14 @@
             <router-link active-class="active" :to="`/${ lang }/component`">{{ langConfig.components }}
             </router-link>
           </li>
+          <li
+            class="nav-item nav-item-theme"
+          >
+            <router-link
+              active-class="active"
+              :to="`/${ lang }/theme`">{{ langConfig.theme }}
+            </router-link>
+          </li>
           <li class="nav-item">
             <router-link active-class="active" :to="`/${ lang }/resource`" exact>{{ langConfig.resource }}
             </router-link>
@@ -327,63 +339,84 @@
               </el-dropdown-menu>
             </el-dropdown>
           </li>
-
-          <!--theme picker-->
-          <li class="nav-item nav-theme-switch" v-show="isComponentPage">
-            <theme-picker></theme-picker>
-          </li>
         </ul>
       </div>
     </header>
   </div>
 </template>
 <script>
-import ThemePicker from './theme-picker.vue';
-import AlgoliaSearch from './search.vue';
-import compoLang from '../i18n/component.json';
-import { version } from 'main/index.js';
+  import ThemePicker from './theme-picker.vue';
+  import AlgoliaSearch from './search.vue';
+  import compoLang from '../i18n/component.json';
+  import Element from 'main/index.js';
+  import themeLoader from './theme/loader';
+  import { getTestEle } from './theme/loader/api.js';
+  import bus from '../bus';
+  import { ACTION_USER_CONFIG_UPDATE } from './theme/constant.js';
 
-export default {
-  data() {
-    return {
-      active: '',
-      versions: [],
-      version,
-      verDropdownVisible: true,
-      langDropdownVisible: true,
-      langs: {
-        'zh-CN': '中文',
-        'en-US': 'English',
-        es: 'Español'
-      }
-    };
-  },
+  const { version } = Element;
 
-  components: {
-    ThemePicker,
-    AlgoliaSearch
-  },
+  export default {
+    data() {
+      return {
+        active: '',
+        versions: [],
+        version,
+        verDropdownVisible: true,
+        langDropdownVisible: true,
+        langs: {
+          'zh-CN': '中文',
+          'en-US': 'English',
+          'es': 'Español',
+          'fr-FR': 'Français'
+        }
+      };
+    },
+
+    mixins: [themeLoader],
+
+    components: {
+      ThemePicker,
+      AlgoliaSearch
+    },
 
   computed: {
     lang() {
       return this.$route.path.split('/')[1] || 'zh-CN';
     },
-    displayedLang() {
-      return this.langs[this.lang] || '中文';
-    },
-    langConfig() {
-      return compoLang.filter(config => config.lang === this.lang)[0]['header'];
-    },
-    isComponentPage() {
-      return /^component/.test(this.$route.name);
-    }
-  },
+    mounted() {
+      getTestEle()
+        .then(() => {
+          this.$isEle = true;
+          ga('send', 'event', 'DocView', 'Ele', 'Inner');
+        })
+        .catch((err) => {
+          ga('send', 'event', 'DocView', 'Ele', 'Outer');
+          console.error(err);
+        });
 
-  methods: {
-    switchVersion(version) {
-      if (version === this.version) return;
-      location.href = `${location.origin}/${this.versions[version]}/${location.hash} `;
+      const testInnerImg = new Image();
+      testInnerImg.onload = () => {
+        this.$isEle = true;
+        ga('send', 'event', 'DocView', 'Ali', 'Inner');
+      };
+      testInnerImg.onerror = (err) => {
+        ga('send', 'event', 'DocView', 'Ali', 'Outer');
+        console.error(err);
+      };
+      testInnerImg.src = `https://private-alipayobjects.alipay.com/alipay-rmsdeploy-image/rmsportal/VmvVUItLdPNqKlNGuRHi.png?t=${Date.now()}`;
     },
+    methods: {
+      switchVersion(version) {
+        if (version === this.version) return;
+        location.href = `${ location.origin }/${ this.versions[version] }/${ location.hash } `;
+      },
+
+      switchLang(targetLang) {
+        if (this.lang === targetLang) return;
+        localStorage.setItem('ELEMENT_LANGUAGE', targetLang);
+        this.$router.push(this.$route.path.replace(this.lang, targetLang));
+      },
 
     switchLang(targetLang) {
       if (this.lang === targetLang) return;
@@ -395,8 +428,30 @@ export default {
       this.verDropdownVisible = visible;
     },
 
-    handleLangDropdownToggle(visible) {
-      this.langDropdownVisible = visible;
+    created() {
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = _ => {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          const versions = JSON.parse(xhr.responseText);
+          this.versions = Object.keys(versions).reduce((prev, next) => {
+            prev[next] = versions[next];
+            return prev;
+          }, {});
+        }
+      };
+      xhr.open('GET', '/versions.json');
+      xhr.send();
+      let primaryLast = '#409EFF';
+      bus.$on(ACTION_USER_CONFIG_UPDATE, (val) => {
+        let primaryColor = val.global['$--color-primary'];
+        if (!primaryColor) primaryColor = '#409EFF';
+        const base64svg = 'data:image/svg+xml;base64,';
+        const imgSet = document.querySelectorAll('h1 img');
+        imgSet.forEach((img) => {
+          img.src = `${base64svg}${window.btoa(window.atob(img.src.replace(base64svg, '')).replace(primaryLast, primaryColor))}`;
+        });
+        primaryLast = primaryColor;
+      });
     }
   },
 
